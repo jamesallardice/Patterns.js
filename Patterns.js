@@ -1,4 +1,4 @@
-var Placeholders = (function () {
+var Patterns = (function () {
 
 	"use strict";
 
