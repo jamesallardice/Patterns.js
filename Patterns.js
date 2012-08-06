@@ -10,7 +10,7 @@ var Patterns = (function () {
 		"url",
 		"email"
 	];
-	
+
 	/* The submitHandler function is executed when the containing form, if any, of a given input element is submitted. If necessary, patterns on any
 	 * input element descendants of the form are executed and the form submission is prevented if any fail to match the value of that input */
 	function submitHandler(form) {
@@ -24,13 +24,13 @@ var Patterns = (function () {
 		//Iterate over all descendant input elements and attempt to match pattern with value
 		for (i = 0; i < numInputs; i++) {
 			element = inputs[i];
-			
+
 			//Get the pattern attribute of the current input element
 			pattern = element.getAttribute("pattern");
-			
+
 			//Ensure the input element is of the correct type and has a pattern attribute
 			if (validTypes.indexOf(element.type) > -1 && pattern) {
-			
+
 				try {
 					//Attempt to compile the pattern attribute value into a regex
 					rPattern = new RegExp(pattern);
@@ -38,14 +38,14 @@ var Patterns = (function () {
 					//Invalid regex, skip this input
 					continue;
 				}
-				
+
 				//Test the value of the input element against the pattern
 				if (!rPattern.test(element.value)) {
-				
+
 					//The pattern didn't match, so prevent the form from being submitted
 					return false;
 				}
-				
+
 				//If we reach this point then the input has passed the test
 			}
 		}
@@ -64,9 +64,9 @@ var Patterns = (function () {
 
 		//Iterate over all input elements and apply placeholder polyfill if necessary
 		for (i = 0; i < numForms; i++) {
-		
+
 			form = forms[i];
-			
+
 			//Bind a submit event handler to the form (cross-browser)
 			if (form.addEventListener) {
 				form.addEventListener("submit", function () {
@@ -79,15 +79,17 @@ var Patterns = (function () {
 			}
 		}
 	}
-	
+
 	function init(opts) {
 
 		//Create an input element to test for the presence of the pattern property. If the pattern property exists, stop.
-		var test = document.createElement("input");
+		var test = document.createElement("input"),
+			i,
+			j;
 
 		//Test input element for presence of pattern property. If it doesn't exist, the browser does not support the HTML5 pattern attribute
 		if (!test.pattern) {
-		
+
 			//We use Array.prototype.indexOf later, so make sure it exists
 			if (!Array.prototype.indexOf) {
 				Array.prototype.indexOf = function (obj, start) {
@@ -97,7 +99,7 @@ var Patterns = (function () {
 					return -1;
 				};
 			}
-			
+
 			setupPatterns();
 		}
 
