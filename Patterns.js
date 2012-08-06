@@ -101,6 +101,9 @@ var Patterns = (function () {
 			}
 
 			setupPatterns();
+
+			//Pattern attribute was successfully polyfilled :)
+			return true;
 		}
 
 		//Pattern attribute already supported by browser :)
