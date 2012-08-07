@@ -200,9 +200,11 @@ var Patterns = (function () {
 		if (!test.pattern) {
 
 			//Set the options (or use defaults)
-			for (opt in opts) {
-				if (opts.hasOwnProperty(opt)) {
-					settings[opt] = opts[opt];
+			if (opts) {
+				for (opt in opts) {
+					if (opts.hasOwnProperty(opt)) {
+						settings[opt] = opts[opt];
+					}
 				}
 			}
 
