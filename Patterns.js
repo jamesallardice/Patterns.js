@@ -10,7 +10,15 @@ var Patterns = (function () {
 			"url",
 			"email"
 		],
-		defaultMessage,
+
+		//Default options, can be overridden by passing object to `init`
+		settings = {
+			tooltipClassName: "patternsjs-tooltip",
+			defaultMessage: "Please match the requested format.",
+			prependDefaultMessage: true
+		},
+
+		//This will refer to the tooltip element (displayed when an input value fails to match its pattern)
 		tooltip;
 
 	//The getTooltipPosition function returns the position a tooltip should be placed in, relative to the document, depending on the input it applies to
@@ -94,9 +102,22 @@ var Patterns = (function () {
 					//The pattern didn't match. Get the position of the input so we can display a tooltip
 					tooltipOffset = getTooltipPosition(element);
 
-					//Set the content of the tooltip to the value of the title attribute (as per spec)
+					//Get the value of the title attribute of the input
 					inputTitle = element.getAttribute("title");
-					tooltip.innerHTML = defaultMessage + (inputTitle ? " " + inputTitle : "");
+
+					//Set the content of the tooltip to the default message
+					tooltip.innerHTML = settings.defaultMessage;
+
+					if (inputTitle && settings.prependDefaultMessage) {
+
+						//Append the value of the title attribute to the default message
+						tooltip.innerHTML += " " + inputTitle;
+
+					} else if (inputTitle) {
+
+						//Don't show the default message. Replace it with the value of the title attribute
+						tooltip.innerHTML = inputTitle;
+					}
 
 					//Set the position of the tooltip and display it
 					tooltip.style.left = tooltipOffset.left;
@@ -146,6 +167,7 @@ var Patterns = (function () {
 
 		//Create an input element to test for the presence of the pattern property. If the pattern property exists, stop.
 		var test = document.createElement("input"),
+			opt,
 			i,
 			j;
 
@@ -162,11 +184,16 @@ var Patterns = (function () {
 				};
 			}
 
-			//This is the default message currently displayed by all browsers when no title attribute is present on the input element
-			defaultMessage = "Please match the requested format.";
+			//Set the options (or use defaults)
+			for (opt in opts) {
+				if (opts.hasOwnProperty(opt)) {
+					settings[opt] = opts[opt];
+				}
+			}
 
 			//Create the element that will be used as the tooltip (displayed when an input value doesn't match its pattern)
 			tooltip = document.createElement("div");
+			tooltip.className = settings.tooltipClassName;
 			tooltip.style.position = "absolute";
 			tooltip.style.display = "none";
 
