@@ -55,6 +55,15 @@ var Patterns = (function () {
 		}
 	}
 
+	function hideTooltip() {
+		tooltip.style.display = "none";
+		if (document.removeEventListener) {
+			document.removeEventListener("click", hideTooltip, false);
+		} else if (document.detachEvent) {
+			document.detachEvent("onclick", hideTooltip);
+		}
+	}
+
 	/* The submitHandler function is executed when the containing form, if any, of a given input element is submitted. If necessary, patterns on any
 	 * input element descendants of the form are executed and the form submission is prevented if any fail to match the value of that input */
 	function submitHandler(form) {
@@ -95,6 +104,13 @@ var Patterns = (function () {
 
 				//Test the value of the input element against the pattern
 				if (!rPattern.test(element.value)) {
+
+					//Bind a click event handler to the document so we can hide the tooltip when the user clicks
+					if (document.addEventListener) {
+						document.addEventListener("click", hideTooltip, false);
+					} else if (document.attachEvent) {
+						document.attachEvent("onclick", hideTooltip);
+					}
 
 					//The pattern didn't match. Get the position of the input so we can display a tooltip
 					tooltipOffset = getTooltipPosition(element);
