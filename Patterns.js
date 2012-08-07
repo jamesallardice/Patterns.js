@@ -18,7 +18,10 @@ var Patterns = (function () {
 	//The getTooltipPosition function returns the position a tooltip should be placed in, relative to the document, depending on the input it applies to
 	function getTooltipPosition(elem) {
 
-		var boundingClientRect;
+		var boundingClientRect,
+			next = elem,
+			x,
+			y;
 
 		if (elem.getBoundingClientRect) {
 
@@ -34,15 +37,15 @@ var Patterns = (function () {
 		} else {
 
 			//The native getBoundingClientRect method isn't supported, so semi-polyfill it (only the bits we really need)
-			var x = 0,
-				y = 0;
+			x = 0;
+			y = 0;
 
 			//Loop through the elements offset parents, maintaining a running offset total
 			do {
-				x += elem.offsetLeft - elem.scrollLeft;
-				y += elem.offsetTop - elem.scrollTop;
+				x += next.offsetLeft - next.scrollLeft;
+				y += next.offsetTop - next.scrollTop;
 			} 
-			while (elem = elem.offsetParent);
+			while (next = next.offsetParent);
 
 			//Return the offset values, adjusting the top so the tooltip appears under the input
 			return { 
@@ -114,8 +117,8 @@ var Patterns = (function () {
 					}
 
 					//Set the position of the tooltip and display it
-					tooltip.style.left = tooltipOffset.left;
-					tooltip.style.top = tooltipOffset.top;
+					tooltip.style.marginLeft = tooltipOffset.left + "px";
+					tooltip.style.marginTop = tooltipOffset.top + "px";
 					tooltip.style.display = "block";
 
 					//Prevent the form from being submitted
@@ -179,6 +182,8 @@ var Patterns = (function () {
 			tooltip = document.createElement("div");
 			tooltip.className = settings.tooltipClassName;
 			tooltip.style.position = "absolute";
+			tooltip.style.left = 0;
+			tooltip.style.top = 0;
 			tooltip.style.display = "none";
 
 			//Append the tooltip element to the DOM (it's hidden at this point)
