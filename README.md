@@ -15,14 +15,18 @@ Patterns.js is a polyfill (or shim, or whatever you like to call it) for the HTM
 
 Patterns.js is designed to replicate native `pattern` attribute functionality as best as it can. To get it working, simply define `pattern` attributes on your `input` elements as usual:
 
-    <label>
-      Part number:
-      <input pattern="[0-9][A-Z]{3}" name="part" title="A part number is a digit followed by three uppercase letters.">
-    </label>
+```html
+<label>
+  Part number:
+  <input pattern="[0-9][A-Z]{3}" name="part" title="A part number is a digit followed by three uppercase letters.">
+</label>
+```
     
 Then just include the script and call the `init` method on DOM ready, or at the end of the `body` element:
 
-    Patterns.init();
+```javascript
+Patterns.init();
+```
 
 That will work, but it won't look very good. Since all of the browsers that currently support the `pattern` attribute natively show a completely different style of tooltip, this polyfill leaves it up to you to style the tooltip as you see fit. The tooltip is a single `div` element, and by default has the class name `patternsjs-tooltip`, allowing you to target it easily with CSS. You can change that class name if you like - see the next section for more details.
     
@@ -40,11 +44,13 @@ The `init` method is all that you need to call to get the polyfill working. It a
 
 Here's an example call to the `init` method:
 
-    Patterns.init({
-    	defaultMessage: "The value you entered is invalid.", //Displayed when no `title` attribute is present
-    	prependDefaultMessage: false, //Don't prepend the default message if no `title` attribute is present
-    	tooltipClassName: "myCustomClassName" //Don't use the default class name on the tooltip element
-    });
+```javascript
+Patterns.init({
+    defaultMessage: "The value you entered is invalid.", //Displayed when no `title` attribute is present
+    prependDefaultMessage: false, //Don't prepend the default message if no `title` attribute is present
+    tooltipClassName: "myCustomClassName" //Don't use the default class name on the tooltip element
+});
+```
     
 ##Known Issues
 
