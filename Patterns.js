@@ -59,6 +59,7 @@ var Patterns = (function () {
 			pattern,
 			rPattern,
 			tooltipOffset,
+			inputTitle,
 			i;
 
 		//Iterate over all descendant input elements and attempt to match pattern with value
@@ -94,7 +95,8 @@ var Patterns = (function () {
 					tooltipOffset = getTooltipPosition(element);
 
 					//Set the content of the tooltip to the value of the title attribute (as per spec)
-					tooltip.innerHTML = element.getAttribute("title") || defaultMessage;
+					inputTitle = element.getAttribute("title");
+					tooltip.innerHTML = defaultMessage + (inputTitle ? " " + inputTitle : "");
 
 					//Set the position of the tooltip and display it
 					tooltip.style.left = tooltipOffset.left;
