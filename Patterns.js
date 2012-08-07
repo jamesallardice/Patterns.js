@@ -68,8 +68,8 @@ var Patterns = (function () {
 			//Get the pattern attribute of the current input element
 			pattern = element.getAttribute("pattern");
 
-			//Ensure the input element is of the correct type and has a pattern attribute
-			if (validTypes.indexOf(element.type) > -1 && pattern) {
+			//Ensure the input element has a value, is of the correct type and has a pattern attribute
+			if (element.value && validTypes.indexOf(element.type) > -1 && pattern) {
 
 				try {
 					//Attempt to compile the pattern attribute value into a regex
