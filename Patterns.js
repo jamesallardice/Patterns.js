@@ -71,6 +71,14 @@ var Patterns = (function () {
 			//Ensure the input element has a value, is of the correct type and has a pattern attribute
 			if (element.value && validTypes.indexOf(element.type) > -1 && pattern) {
 
+				//Ensure the pattern is anchored to both the start and end of the string, since the entire input value must match
+				if (pattern.charAt(0) !== "^") {
+					pattern = "^" + pattern;
+				}
+				if (pattern.charAt(pattern.length - 1) !== "$") {
+					pattern += "$";
+				}
+
 				try {
 					//Attempt to compile the pattern attribute value into a regex
 					rPattern = new RegExp(pattern);
