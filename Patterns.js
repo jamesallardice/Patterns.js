@@ -55,12 +55,24 @@ var Patterns = (function () {
 		}
 	}
 
-	function hideTooltip() {
-		tooltip.style.display = "none";
-		if (document.removeEventListener) {
-			document.removeEventListener("click", hideTooltip, false);
-		} else if (document.detachEvent) {
-			document.detachEvent("onclick", hideTooltip);
+	//The hideTooltip function is used as a click event handler on the document when the tooltip is showing.
+	function hideTooltip(e) {
+
+		//Get the element that was actually clicked
+		var target = e.target || e.srcElement;
+
+		//Only hide the tooltip if the click originated on an element other than the tooltip itself
+		if (target !== tooltip) {
+
+			//Hide the tooltip
+			tooltip.style.display = "none";
+
+			//Remove the click event handler from the document, to keep things tidy (cross-browser)
+			if (document.removeEventListener) {
+				document.removeEventListener("click", hideTooltip, false);
+			} else if (document.detachEvent) {
+				document.detachEvent("onclick", hideTooltip);
+			}
 		}
 	}
 
