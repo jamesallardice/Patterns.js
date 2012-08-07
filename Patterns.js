@@ -3,13 +3,7 @@ var Patterns = (function () {
 	"use strict";
 
 	// These are the only input types that support the pattern attribute. See https://developer.mozilla.org/en-US/docs/HTML/Element/Input#Attributes
-	var validTypes = [
-			"text",
-			"search",
-			"tel",
-			"url",
-			"email"
-		],
+	var rValidTypes = /^(text|search|tel|url|email)$/,
 
 		//Default options, can be overridden by passing object to `init`
 		settings = {
@@ -78,7 +72,7 @@ var Patterns = (function () {
 			pattern = element.getAttribute("pattern");
 
 			//Ensure the input element has a value, is of the correct type and has a pattern attribute
-			if (element.value && validTypes.indexOf(element.type) > -1 && pattern) {
+			if (element.value && rValidTypes.test(element.type) > -1 && pattern) {
 
 				//Ensure the pattern is anchored to both the start and end of the string, since the entire input value must match
 				if (pattern.charAt(0) !== "^") {
@@ -173,16 +167,6 @@ var Patterns = (function () {
 
 		//Test input element for presence of pattern property. If it doesn't exist, the browser does not support the HTML5 pattern attribute
 		if (!test.pattern) {
-
-			//We use Array.prototype.indexOf later, so make sure it exists
-			if (!Array.prototype.indexOf) {
-				Array.prototype.indexOf = function (obj, start) {
-					for (i = (start || 0), j = this.length; i < j; i += 1) {
-						if (this[i] === obj) { return i; }
-					}
-					return -1;
-				};
-			}
 
 			//Set the options (or use defaults)
 			for (opt in opts) {
